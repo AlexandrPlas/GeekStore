@@ -5,6 +5,10 @@
     <UserSecretsId>aspnet-GeekStore-47C2CCBE-BD37-4B75-8FD5-97BFB1D169BE</UserSecretsId>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.9" />

@@ -8,6 +8,7 @@ namespace GeekStore.Models.ManageViewModels
 {
     public class IndexViewModel
     {
+        [Display(Name = "Имя пользователя")]
         public string Username { get; set; }
 
         public bool IsEmailConfirmed { get; set; }

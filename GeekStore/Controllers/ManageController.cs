@@ -25,6 +25,7 @@ namespace GeekStore.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
         private const string RecoveryCodesKey = nameof(RecoveryCodesKey);
@@ -34,13 +35,15 @@ namespace GeekStore.Controllers
           SignInManager<ApplicationUser> signInManager,
           IEmailSender emailSender,
           ILogger<ManageController> logger,
-          UrlEncoder urlEncoder)
+          UrlEncoder urlEncoder,
+          RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
             _urlEncoder = urlEncoder;
+            _roleManager = roleManager;
         }
 
         [TempData]
@@ -52,7 +55,7 @@ namespace GeekStore.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                throw new ApplicationException($"Не удалось загрузить пользователя с ID '{_userManager.GetUserId(User)}'.");
             }
 
             var model = new IndexViewModel
@@ -79,7 +82,7 @@ namespace GeekStore.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                throw new ApplicationException($"Не удалось загрузить пользователя с ID '{_userManager.GetUserId(User)}'.");
             }
 
             var email = user.Email;
@@ -88,7 +91,7 @@ namespace GeekStore.Controllers
                 var setEmailResult = await _userManager.SetEmailAsync(user, model.Email);
                 if (!setEmailResult.Succeeded)
                 {
-                    throw new ApplicationException($"Unexpected error occurred setting email for user with ID '{user.Id}'.");
+                    throw new ApplicationException($"Произошла непредвиденная ошибка при настройке электронной почты для пользователя с ID '{user.Id}'.");
                 }
             }
 
@@ -98,11 +101,11 @@ namespace GeekStore.Controllers
                 var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, model.PhoneNumber);
                 if (!setPhoneResult.Succeeded)
                 {
-                    throw new ApplicationException($"Unexpected error occurred setting phone number for user with ID '{user.Id}'.");
+                    throw new ApplicationException($"Произошла непредвиденная ошибка при установке номера телефона для пользователя с ID '{user.Id}'.");
                 }
             }
 
-            StatusMessage = "Your profile has been updated";
+            StatusMessage = "Ваш профиль был обновлен";
             return RedirectToAction(nameof(Index));
         }
 
@@ -118,7 +121,7 @@ namespace GeekStore.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                throw new ApplicationException($"Не удалось загрузить пользователя с ID '{_userManager.GetUserId(User)}'.");
             }
 
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -126,7 +129,7 @@ namespace GeekStore.Controllers
             var email = user.Email;
             await _emailSender.SendEmailConfirmationAsync(email, callbackUrl);
 
-            StatusMessage = "Verification email sent. Please check your email.";
+            StatusMessage = "Отправлено электронное письмо с подтверждением. Проверьте свою электронную почту.";
             return RedirectToAction(nameof(Index));
         }
 
@@ -136,7 +139,7 @@ namespace GeekStore.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                throw new ApplicationException($"Не удалось загрузить пользователя с ID '{_userManager.GetUserId(User)}'.");
             }
 
             var hasPassword = await _userManager.HasPasswordAsync(user);
@@ -161,7 +164,7 @@ namespace GeekStore.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                throw new ApplicationException($"Не удалось загрузить пользователя с ID '{_userManager.GetUserId(User)}'.");
             }
 
             var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
@@ -172,8 +175,8 @@ namespace GeekStore.Controllers
             }
 
             await _signInManager.SignInAsync(user, isPersistent: false);
-            _logger.LogInformation("User changed their password successfully.");
-            StatusMessage = "Your password has been changed.";
+            _logger.LogInformation("Пользователь успешно сменил пароль.");
+            StatusMessage = "Ваш пароль был изменен.";
 
             return RedirectToAction(nameof(ChangePassword));
         }
@@ -184,7 +187,7 @@ namespace GeekStore.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                throw new ApplicationException($"Не удалось загрузить пользователя с ID '{_userManager.GetUserId(User)}'.");
             }
 
             var hasPassword = await _userManager.HasPasswordAsync(user);
@@ -210,7 +213,7 @@ namespace GeekStore.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                throw new ApplicationException($"Не удалось загрузить пользователя с ID '{_userManager.GetUserId(User)}'.");
             }
 
             var addPasswordResult = await _userManager.AddPasswordAsync(user, model.NewPassword);
@@ -221,7 +224,7 @@ namespace GeekStore.Controllers
             }
 
             await _signInManager.SignInAsync(user, isPersistent: false);
-            StatusMessage = "Your password has been set.";
+            StatusMessage = "Ваш пароль установлен.";
 
             return RedirectToAction(nameof(SetPassword));
         }
@@ -233,7 +236,7 @@ namespace GeekStore.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                throw new ApplicationException($"Не удалось загрузить пользователя с ID '{_userManager.GetUserId(User)}'.");
             }
 
             var model = new EnableAuthenticatorViewModel();
@@ -241,8 +244,98 @@ namespace GeekStore.Controllers
 
             return View(model);
         }
-        
-        
+
+        public IActionResult Users() => View(_userManager.Users.ToList());
+
+        public IActionResult Create() => View();
+
+        [HttpPost]
+        public async Task<IActionResult> Create(CreateUserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                ApplicationUser user = new ApplicationUser { Email = model.Email, UserName = model.Email };
+                var result = await _userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Users");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
+            }
+            return View(model);
+        }
+
+        public async Task<IActionResult> EditUser(string id)
+        {
+            ApplicationUser user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var userRoles = await _userManager.GetRolesAsync(user);
+            var allRoles = _roleManager.Roles.ToList();
+            EditUserViewModel model = new EditUserViewModel { Id = user.Id, Email = user.Email, UserRoles = userRoles, AllRoles = allRoles
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditUser(String email, string id, List<string> roles)
+        {
+            if (ModelState.IsValid)
+            {
+                ApplicationUser user = await _userManager.FindByIdAsync(id);
+                if (user != null)
+                {
+
+                    //изменение ролей
+                    var userRoles = await _userManager.GetRolesAsync(user);
+                    var allRoles = _roleManager.Roles.ToList();
+                    var addedRoles = roles.Except(userRoles);
+                    var removedRoles = userRoles.Except(roles);
+
+                    await _userManager.AddToRolesAsync(user, addedRoles);
+                    await _userManager.RemoveFromRolesAsync(user, removedRoles);
+
+                    //изменение пользователя
+                    user.Email = email;
+                    user.UserName = email;
+
+                    var result = await _userManager.UpdateAsync(user);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Users");
+                    }
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+                    }
+                }
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Delete(string id)
+        {
+            ApplicationUser user = await _userManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                IdentityResult result = await _userManager.DeleteAsync(user);
+            }
+            return RedirectToAction("Users");
+        }
+
         #region Helpers
 
         private void AddErrors(IdentityResult result)
