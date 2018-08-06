@@ -10,7 +10,7 @@ namespace GeekStore.Models.AccountViewModels
     {
             [Required]
             [DataType(DataType.Text)]
-            [Display(Name = "Recovery Code")]
+            [Display(Name = "Код востановления")]
             public string RecoveryCode { get; set; }
     }
 }

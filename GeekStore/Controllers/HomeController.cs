@@ -17,14 +17,14 @@ namespace GeekStore.Controllers
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
+            ViewData["Message"] = "Страница описания вашего приложения.";
 
             return View();
         }
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
+            ViewData["Message"] = "Страница с контактными данными.";
 
             return View();
         }
