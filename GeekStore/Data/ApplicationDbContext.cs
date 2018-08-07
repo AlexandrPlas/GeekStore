@@ -10,6 +10,15 @@ namespace GeekStore.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Option> Options { get; set; }
+        public DbSet<Image> Images { get; set; }
+        public DbSet<Manufacture> Manufactures { get; set; }
+        public DbSet<Category> Categorys { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderProduct> OrderProducts { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
