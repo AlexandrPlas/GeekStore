@@ -38,6 +38,21 @@
             </div>
         </div>
     </nav>
+
+    <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>Редактировать</li>
+                    <li><a asp-area="" asp-controller="Redact" asp-action="AddProduct">Товар</a></li>
+                    <li><a asp-area="" asp-controller="Redact" asp-action="AddManufacture">Производители</a></li>
+                    <li><a asp-area="" asp-controller="Redact" asp-action="AddCategory">Категории</a></li>
+                    <li><a asp-area="" asp-controller="Redact" asp-action="Index">Заказы</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
     <div class="container body-content">
         @RenderBody()
         <hr />
