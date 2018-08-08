@@ -1,0 +1,24 @@
+﻿@model IEnumerable<Product>
+@{
+    ViewData["Title"] = "Список товаров";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewData["Title"]</h2>
+<a asp-action="AddProduct">Добавить товар</a>
+<table class="table">
+    <tr><td>Наименование</td><td>Производитель</td><td>Категория</td><td>Цена</td><td>Количество на складе</td></tr>
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>@item.Name</td>
+        <td>@if (item.Manufacture != null) {@item.Manufacture.Name}</td>
+        <td>@if (item.Category != null) {@item.Category.Name}</td>
+        <td>@item.Price</td>
+        <td>@item.Count</td>
+        <td><a asp-action="EditProduct" asp-controller="Redact" asp-route-id="@item.Id">Изменить</a></td>
+        <td><a asp-action="DeleteProduct" asp-controller="Redact" asp-route-id="@item.Id">Удалить</a></td>
+    </tr>
+    }
+</table>
+

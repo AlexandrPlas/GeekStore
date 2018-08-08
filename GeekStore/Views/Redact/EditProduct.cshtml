@@ -1,0 +1,47 @@
+﻿@model GeekStore.Models.RedactViewModels.AddProductViewModel
+@{
+    ViewData["Title"] = "Редактирование товара";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewData["Title"]</h2>
+<div class="col-md-6">
+    <form asp-action="EditProduct" asp-controller="Redact" asp-route-id="@Model.Id">
+        @Html.ValidationSummary()
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name)
+            @Html.EditorFor(model => model.Name)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Price)
+            @Html.EditorFor(model => model.Price)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Count)
+            @Html.EditorFor(model => model.Count)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.manId, "Производитель")
+            @Html.DropDownListFor(model => model.manId, ViewBag.Man as SelectList)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.catId, "Категория")
+            @Html.DropDownListFor(model => model.catId, ViewBag.Cat as SelectList)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Options, "Метки")
+            @Html.EditorFor(model => model.Options[0])
+            @Html.EditorFor(model => model.Options[1])
+            @Html.EditorFor(model => model.Options[2])
+            @Html.EditorFor(model => model.Options[3])
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Images, "Загрузите файлы")
+            @Html.EditorFor(model => model.Images)
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-default">Изменить</button>
+        </div>
+    </form>
+</div>
+

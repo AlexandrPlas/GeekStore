@@ -1,0 +1,21 @@
+﻿@model IEnumerable<Category>
+@{
+    ViewData["Title"] = "Список категорий";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewData["Title"]</h2>
+<a asp-action="AddCategory">Добавить категорию</a>
+<table class="table">
+    <tr><td>Наименование</td><td>Иерархия</td><td>Актуальность</td></tr>
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>@item.Name</td>
+        <td>@item.Hierarchy</td>
+        <td>@item.Availability</td>
+        <td><a asp-action="EditCategory" asp-controller="Redact" asp-route-id="@item.Id">Изменить</a></td>
+        <td><a asp-action="DeleteCategory" asp-controller="Redact" asp-route-id="@item.Id">Удалить</a></td>
+    </tr>
+    }
+</table>

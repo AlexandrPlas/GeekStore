@@ -1,0 +1,37 @@
+﻿@model Manufacture
+@{
+    ViewData["Title"] = "Удалить производителя";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>Наименование</dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>Описание</dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>Логотип</dt>
+        <dd>
+            @if (ViewData["Logo"] != null)
+            {
+                <img style='width:60px; height:60px;' src="data:image/jpeg;base64,@(Convert.ToBase64String((byte[])ViewData["Logo"]))" />
+            }
+        </dd>
+    </dl>
+
+    <div>
+        <form asp-controller="Redact" asp-action="DeleteManufacture" method="post">
+            <div class="form-group">
+                <button type="submit" class="btn btn-default">Удалить</button>
+            </div>
+        </form>
+    </div>
+</div>

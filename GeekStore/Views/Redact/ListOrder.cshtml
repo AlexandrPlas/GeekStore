@@ -1,0 +1,19 @@
+﻿@model IEnumerable<Order>
+@{
+    ViewData["Title"] = "Список заказов";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<table class="table">
+    <tr><td>Пользователь</td><td>Цена</td><td>Статус</td></tr>
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>@item.User.UserName</td>
+        <td>@item.Price</td>
+        <td>@item.Status</td>
+    </tr>
+    }
+</table>

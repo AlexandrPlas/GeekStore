@@ -1,0 +1,24 @@
+﻿@model Category
+@{
+    ViewData["Title"] = "Редактирование категорий";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewData["Title"]</h2>
+<div class="col-md-6">
+    <form asp-action="EditCategory" asp-controller="Redact" asp-route-id="@Model.Id">
+        @Html.ValidationSummary()
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name)
+            @Html.EditorFor(model => model.Name)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Hierarchy)
+            @Html.EditorFor(model => model.Hierarchy)
+        </div>
+
+        <button type="submit" class="btn btn-default">Изменить</button>
+    </form>
+</div>
+</div>
+

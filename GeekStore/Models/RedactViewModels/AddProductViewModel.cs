@@ -10,6 +10,8 @@ namespace GeekStore.Models.RedactViewModels
 {
     public class AddProductViewModel
     {
+        public int Id { get; set; }
+
         [Display(Name = "Наименование товара")]
         public string Name { get; set; }
 
