@@ -12,7 +12,6 @@ namespace GeekStore.Data
     {
 
         public DbSet<Product> Products { get; set; }
-        public DbSet<Option> Options { get; set; }
         public DbSet<Image> Images { get; set; }
         public DbSet<Manufacture> Manufactures { get; set; }
         public DbSet<Category> Categorys { get; set; }

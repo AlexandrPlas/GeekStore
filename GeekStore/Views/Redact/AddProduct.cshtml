@@ -24,18 +24,15 @@
             </div>
             <div class="form-group">
                 @Html.LabelFor(model => model.manId, "Производитель")
-                @Html.DropDownListFor(model=> model.manId, ViewBag.Man as SelectList)
+                @Html.DropDownListFor(model => model.manId, ViewBag.Man as SelectList)
             </div>
             <div class="form-group">
                 @Html.LabelFor(model => model.catId, "Категория")
                 @Html.DropDownListFor(model => model.catId, ViewBag.Cat as SelectList)
             </div>
             <div class="form-group">
-                @Html.LabelFor(model => model.Options, "Метки")
-                @Html.EditorFor(model => model.Options[0])
-                @Html.EditorFor(model => model.Options[1])
-                @Html.EditorFor(model => model.Options[2])
-                @Html.EditorFor(model => model.Options[3])
+                @Html.LabelFor(model => model.Description)
+                @Html.EditorFor(model => model.Description)
             </div>
             <div class="form-group">
                 @Html.LabelFor(model => model.Images, "Загрузите файлы")

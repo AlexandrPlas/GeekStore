@@ -11,9 +11,10 @@ using System;
 namespace GeekStore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180809063226_DB v0.2.2")]
+    partial class DBv022
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -97,8 +98,7 @@ namespace GeekStore.Data.Migrations
                     b.Property<byte[]>("Picture")
                         .IsRequired();
 
-                    b.Property<int?>("ProductId")
-                        .IsRequired();
+                    b.Property<int?>("ProductId");
 
                     b.HasKey("Id");
 
@@ -134,8 +134,7 @@ namespace GeekStore.Data.Migrations
 
                     b.Property<string>("Status");
 
-                    b.Property<string>("UserId")
-                        .IsRequired();
+                    b.Property<string>("UserId");
 
                     b.HasKey("Id");
 
@@ -179,8 +178,7 @@ namespace GeekStore.Data.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<int?>("ManufactureId")
-                        .IsRequired();
+                    b.Property<int?>("ManufactureId");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -309,16 +307,14 @@ namespace GeekStore.Data.Migrations
                 {
                     b.HasOne("GeekStore.Models.Product", "Product")
                         .WithMany("Images")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ProductId");
                 });
 
             modelBuilder.Entity("GeekStore.Models.Order", b =>
                 {
                     b.HasOne("GeekStore.Models.ApplicationUser", "User")
                         .WithMany("Orders")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("GeekStore.Models.OrderProduct", b =>
@@ -342,8 +338,7 @@ namespace GeekStore.Data.Migrations
 
                     b.HasOne("GeekStore.Models.Manufacture", "Manufacture")
                         .WithMany("Products")
-                        .HasForeignKey("ManufactureId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ManufactureId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

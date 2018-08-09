@@ -21,10 +21,7 @@ namespace GeekStore.Models.RedactViewModels
 
         [Display(Name = "На складе")]
         public int Count { get; set; }
-
-        [Display(Name = "Параметры")]
-        public virtual List<String> Options { get; set; }
-
+        
         [Display(Name = "Изображения")]
         public virtual List<IFormFile> Images { get; set; }
 
@@ -33,7 +30,10 @@ namespace GeekStore.Models.RedactViewModels
 
         [Display(Name = "Категория")]
         public int catId { get; set; }
-        
+
+        [Display(Name = "Описание")]
+        public String Description { get; set; }
+
         public string StatusMessage { get; set; }
 
     }

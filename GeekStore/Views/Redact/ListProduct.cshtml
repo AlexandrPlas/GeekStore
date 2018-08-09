@@ -11,11 +11,18 @@
     @foreach (var item in Model)
     {
     <tr>
-        <td>@item.Name</td>
+        <td>
+            @if (item.Images.Count > 0)
+            {
+                <img style='width:60px; height:60px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(item.Images.FirstOrDefault().Picture))" />
+            }
+            @item.Name
+        </td>
         <td>@if (item.Manufacture != null) {@item.Manufacture.Name}</td>
         <td>@if (item.Category != null) {@item.Category.Name}</td>
         <td>@item.Price</td>
         <td>@item.Count</td>
+        <td>@item.Description</td>  
         <td><a asp-action="EditProduct" asp-controller="Redact" asp-route-id="@item.Id">Изменить</a></td>
         <td><a asp-action="DeleteProduct" asp-controller="Redact" asp-route-id="@item.Id">Удалить</a></td>
     </tr>

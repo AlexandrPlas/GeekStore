@@ -44,11 +44,27 @@ namespace GeekStore.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
+                List<Image> _images = new List<Image>();
+                if (model.Images != null)
+                    foreach (var img in model.Images)
+                    {
+                        Image temp = new Image (ImageToByte(img));
+                        _images.Add(temp);
+                        _DbContext.Images.Add(temp);
+                    }
 
-
-                var product = new Product { Name = model.Name,
-                                            Price = model.Price,
-                                            Count = model.Count};
+                // _images = _DbContext.Images.Where(m => m.ProductId == model.Id).ToList();
+                var product = new Product
+                {
+                    Name = model.Name,
+                    Price = model.Price,
+                    Count = model.Count,
+                    Availability = model.Count > 0 ? true : false,
+                    Manufacture = _DbContext.Manufactures.Single(s => s.Id == model.manId),
+                    Category = _DbContext.Categorys.Single(s => s.Id == model.catId),
+                    Description = model.Description,
+                    Images = _images
+                };
 
                 _DbContext.Products.Add(product);
                 _DbContext.SaveChanges();
@@ -59,7 +75,9 @@ namespace GeekStore.Controllers
         [HttpGet]
         public async Task<IActionResult> ListProduct()
         {
-            return View(await _DbContext.Products.ToListAsync());
+            return View(await _DbContext.Products.Include(m => m.Manufacture)
+                                                 .Include(m => m.Category)
+                                                 .Include(m => m.Images).ToListAsync());
         }
 
 
@@ -71,7 +89,10 @@ namespace GeekStore.Controllers
                 SelectList cat = new SelectList(_DbContext.Categorys, "Id", "Name");
                 ViewBag.Man = manufactures;
                 ViewBag.Cat = cat;
-                Product product = await _DbContext.Products.FirstOrDefaultAsync(p => p.Id == id);
+                Product product = await _DbContext.Products.Include(m => m.Manufacture)
+                                                 .Include(m => m.Category)
+                                                 .Include(m => m.Images)
+                                                 .FirstOrDefaultAsync(p => p.Id == id);
                 var productvm = new AddProductViewModel
                 {
                     Id = product.Id,
@@ -97,7 +118,10 @@ namespace GeekStore.Controllers
                 Name = model.Name,
                 Price = model.Price,
                 Count = model.Count,
-                Availability = model.Count > 0 ? true : false
+                Availability = model.Count > 0 ? true : false,
+                Manufacture = _DbContext.Manufactures.Single(s => s.Id == model.manId),
+                Category = _DbContext.Categorys.Single(s => s.Id == model.catId),
+                Description = model.Description
             };
             
             _DbContext.Products.Update(product);
@@ -105,6 +129,33 @@ namespace GeekStore.Controllers
             return RedirectToAction("ListProduct");
         }
 
+        [HttpGet]
+        [ActionName("DeleteProduct")]
+        public async Task<IActionResult> ConfirmDeleteProduct(int? id)
+        {
+            if (id != null)
+            {
+                Product product = await _DbContext.Products.Include(m => m.Images).FirstOrDefaultAsync(p => p.Id == id);
+                return View(product);
+            }
+            return NotFound();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteProduct(int? id)
+        {
+            if (id != null)
+            {
+                Product product = await _DbContext.Products.FirstOrDefaultAsync(p => p.Id == id);
+                if (product != null)
+                {
+                    _DbContext.Products.Remove(product);
+                    await _DbContext.SaveChangesAsync();
+                    return RedirectToAction("ListProduct");
+                }
+            }
+            return NotFound();
+        }
 
         #endregion
 
@@ -235,6 +286,35 @@ namespace GeekStore.Controllers
             await _DbContext.SaveChangesAsync();
             return RedirectToAction("ListCategory");
         }
+
+        [HttpGet]
+        [ActionName("DeleteCategory")]
+        public async Task<IActionResult> ConfirmDeleteCategory(int? id)
+        {
+            if (id != null)
+            {
+                Category category = await _DbContext.Categorys.FirstOrDefaultAsync(p => p.Id == id);
+                return View(category);
+            }
+            return NotFound();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteCategory(int? id)
+        {
+            if (id != null)
+            {
+                Category category = await _DbContext.Categorys.FirstOrDefaultAsync(p => p.Id == id);
+                if (category != null)
+                {
+                    _DbContext.Categorys.Remove(category);
+                    await _DbContext.SaveChangesAsync();
+                    return RedirectToAction("ListCategory");
+                }
+            }
+            return NotFound();
+        }
+
         #endregion
 
         [HttpGet]
