@@ -1,0 +1,12 @@
+﻿@using GeekStore.Views.Store
+@inject SignInManager<ApplicationUser> SignInManager
+@{
+    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+}
+
+<ul class="nav nav-pills nav-stacked">
+    <li class="@StoreNavPages.IndexNavClass(ViewContext)"><a asp-action="Index">Профиль</a></li>
+    <li class="@StoreNavPages.ChangePasswordNavClass(ViewContext)"><a asp-action="ChangePassword">Пароль</a></li>
+    <li class="@StoreNavPages.UsersNavClass(ViewContext)"><a asp-action="Users">Редактировать аккаунты</a></li>
+</ul>
+

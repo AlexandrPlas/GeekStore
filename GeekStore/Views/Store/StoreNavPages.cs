@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
-namespace GeekStore.Views.Manage
+namespace GeekStore.Views.Store
 {
     public static class StoreNavPages
     {

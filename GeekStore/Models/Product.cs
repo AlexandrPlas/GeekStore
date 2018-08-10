@@ -137,6 +137,8 @@ namespace GeekStore.Models
 
         [Display(Name = "Продукты")]
         public ICollection<OrderProduct> Products { get; set; }
+
+        public Order() { }
     }
 
     public class OrderProduct
@@ -156,5 +158,7 @@ namespace GeekStore.Models
 
         [Display(Name = "Количество")]
         public int Quantity { get; set; }
+
+        public OrderProduct() { }
     }
 }

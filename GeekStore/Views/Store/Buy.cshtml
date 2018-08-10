@@ -1,0 +1,44 @@
+﻿@model Product
+@{
+    ViewData["Title"] = "Оформление заказа";
+    Layout = "~/Views/Store/_Layout.cshtml";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div>
+    <dl class="dl-horizontal">
+        @if (Model.Images.Count > 0)
+        {
+            <img style='width:60px; height:60px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Images.FirstOrDefault().Picture))" />
+        }
+        <dt>Наименование</dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>Производитель</dt>
+        <dd>
+            @Html.DisplayFor(model => model.Manufacture.Name)
+        </dd>
+
+        <dt>Цена</dt>
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt>Количество на складе</dt>
+        <dd>
+            @Html.DisplayFor(model => model.Count)
+        </dd>
+    </dl>
+    <div>
+        <form asp-controller="Store" asp-action="Buy" method="post">
+            <input type="hidden" name="id" value="@Model.Id"/>
+            <div class="form-group">
+                <label>Количество:</label>
+                <input type="number" name="quantity" />
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-default">Оформить заказ</button>
+            </div>
+        </form>
+    </div>

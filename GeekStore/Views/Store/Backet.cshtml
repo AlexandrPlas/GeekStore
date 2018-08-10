@@ -1,0 +1,49 @@
+﻿@model ICollection<GeekStore.Models.BacketViewModels>
+
+@using GeekStore.Data
+@inject ApplicationDbContext _DbContext
+
+@{
+    ViewData["Title"] = "Карзина";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<table class="table">
+
+    @foreach (var item in Model)
+    {
+        <h2>Заказ №@item.OrderId</h2>
+        <h3>Стоимостью @item.Price р.</h3>
+        <h3>В статусе "@item.Status"</h3>
+        <tr><td>Наименование</td><td>Производитель</td><td>Категория</td><td>Цена</td><td>Заказано</td><td>Общая стоимость</td></tr>
+        @foreach (var product in item.Products)
+        {
+
+            <tr>
+                <td>
+                    @if (product.Images.Count > 0)
+                    {
+                        <img style='width:60px; height:60px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(product.Images.FirstOrDefault().Picture))" />
+                    }
+                    <a asp-action="Detail" asp-controller="Store" asp-route-id="@product.Id">@product.Name</a>
+                </td>
+                <td>
+                    @if (product.Manufacture != null)
+                    {@product.Manufacture.Name}
+                </td>
+                <td>
+                    @if (product.Category != null)
+                    {@product.Category.Name}
+                </td>
+                <td>@product.Price р.</td>
+                <td>@product.Quantity</td>
+                <td>@product.AllPrice р.</td>
+                <td><a asp-controller="Store" asp-action="DeleteProductInOrder" asp-route-id="@_DbContext.OrderProducts.FirstOrDefault(m => m.ProductId == product.Id && m.OrderId == item.OrderId).Id" class="btn btn-default">Удалить</a></td>
+            </tr>
+
+        }
+
+    }
+</table>

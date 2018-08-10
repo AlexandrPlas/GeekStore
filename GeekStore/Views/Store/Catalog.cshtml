@@ -1,0 +1,87 @@
+﻿@model StoreViewModel
+@addTagHelper "*, GeekStore"
+@{
+    ViewData["Title"] = "Каталог товаров";
+    Layout = "~/Views/Store/_Layout.cshtml";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+
+<form method="get">
+    <div class="form-inline">
+        <label class="control-label">Цена   Min: </label>
+        @Html.TextBox("minPrice", 0, new { type = "number" })
+        <label class="control-label">Max: </label>
+        @Html.TextBox("maxPrice", 50000, new { type = "number" }) <br />
+        <label class="control-label">Имя: </label>
+        @Html.TextBox("name", Model.FilterViewModel.SelectedName, htmlAttributes: new { @class = "form-control" })
+
+        <label class="control-label">Производитель: </label>
+        @Html.DropDownList("manufacture", Model.FilterViewModel.Manufactures as SelectList,
+                htmlAttributes: new { @class = "form-control" })
+
+        <input type="submit" value="Фильтр" class="btn btn-default" />
+    </div>
+</form>
+
+
+<table class="table">
+    <tr>
+        <td>
+            <a asp-action="Catalog"
+               asp-route-sortOrder="@(Model.SortViewModel.NameSort)"
+               asp-route-name="@(Model.FilterViewModel.SelectedName)"
+               asp-route-company="@(Model.FilterViewModel.SelectedManufacture)"
+               asp-route-minPrice="@(Model.FilterViewModel.MinPrice)"
+               asp-route-maxPrice="@(Model.FilterViewModel.MaxPrice)">Имя</a>
+        </td>
+        <td>
+            <a asp-action="Catalog" asp-route-sortOrder="@(Model.SortViewModel.ManufactureSort)"
+               asp-route-name="@(Model.FilterViewModel.SelectedName)"
+               asp-route-company="@(Model.FilterViewModel.SelectedManufacture)"
+               asp-route-minPrice="@(Model.FilterViewModel.MinPrice)"
+               asp-route-maxPrice="@(Model.FilterViewModel.MaxPrice)">Производитель</a>
+        </td>
+        <td>Категория</td>
+        <td>
+            <a asp-action="Catalog" asp-route-sortOrder="@(Model.SortViewModel.PriceSort)"
+               asp-route-name="@(Model.FilterViewModel.SelectedName)"
+               asp-route-company="@(Model.FilterViewModel.SelectedManufacture)"
+               asp-route-minPrice="@(Model.FilterViewModel.MinPrice)"
+               asp-route-maxPrice="@(Model.FilterViewModel.MaxPrice)">Цена</a>
+        </td>
+        <td>Количество на складе</td>
+        <td>Описание</td>
+    </tr>
+    @foreach (var item in Model.Products)
+    {
+        <tr>
+            <td>
+                @if (item.Images.Count > 0)
+                {
+                    <img style='width:60px; height:60px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(item.Images.FirstOrDefault().Picture))" />
+                }
+                <a asp-action="Detail" asp-controller="Store" asp-route-id="@item.Id">@item.Name</a>
+            </td>
+            <td>
+                @if (item.Manufacture != null)
+                {@item.Manufacture.Name}
+            </td>
+            <td>
+                @if (item.Category != null)
+                {@item.Category.Name}
+            </td>
+            <td>@item.Price</td>
+            <td>@item.Count</td>
+            <td>@item.Description</td>
+            <td><a asp-controller="Store" asp-action="Buy" asp-route-id="@item.Id" class="btn btn-default">В корзину</a></td>
+        </tr>
+    }
+</table>
+<page-link page-model="Model.PageViewModel" page-action="Catalog"
+           page-url-name="@(Model.FilterViewModel.SelectedName)"
+           page-url-manufacture="@(Model.FilterViewModel.SelectedManufacture)"
+           page-url-minPrice="@(Model.FilterViewModel.MinPrice)"
+           page-url-maxPrice="@(Model.FilterViewModel.MaxPrice)"
+           page-url-sortorder="@(Model.SortViewModel.Current)"></page-link>
