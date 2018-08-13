@@ -39,20 +39,21 @@
             </div>
         </div>
     </nav>
-
-    <nav class="navbar navbar-inverse">
-        <div class="container">
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>Редактировать</li>
-                    <li><a asp-area="" asp-controller="Redact" asp-action="ListProduct">Товар</a></li>
-                    <li><a asp-area="" asp-controller="Redact" asp-action="ListManufacture">Производители</a></li>
-                    <li><a asp-area="" asp-controller="Redact" asp-action="ListCategory">Категории</a></li>
-                    <li><a asp-area="" asp-controller="Redact" asp-action="ListOrder">Заказы</a></li>
-                </ul>
+    @if(User.IsInRole("admin") || User.IsInRole("moderator"))
+    {
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a asp-area="" asp-controller="Redact" asp-action="ListProduct">Товар</a></li>
+                        <li><a asp-area="" asp-controller="Redact" asp-action="ListManufacture">Производители</a></li>
+                        <li><a asp-area="" asp-controller="Redact" asp-action="ListCategory">Категории</a></li>
+                        <li><a asp-area="" asp-controller="Redact" asp-action="ListOrder">Заказы</a></li>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
+    }
 
     <div class="container body-content">
         @RenderBody()

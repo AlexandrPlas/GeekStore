@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Список пользователей";
     Layout = "~/Views/Manage/_Layout.cshtml";
+    ViewData.AddActivePage(ManageNavPages.Users);
 }
 
 <a asp-action="Create">Добавить пользователя</a>

@@ -245,11 +245,14 @@ namespace GeekStore.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "admin")]
         public IActionResult Users() => View(_userManager.Users.ToList());
 
+        [Authorize(Roles = "admin")]
         public IActionResult Create() => View();
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Create(CreateUserViewModel model)
         {
             if (ModelState.IsValid)
@@ -271,6 +274,7 @@ namespace GeekStore.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> EditUser(string id)
         {
             ApplicationUser user = await _userManager.FindByIdAsync(id);
@@ -287,6 +291,8 @@ namespace GeekStore.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditUser(String email, string id, List<string> roles)
         {
             if (ModelState.IsValid)
@@ -326,6 +332,7 @@ namespace GeekStore.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Delete(string id)
         {
             ApplicationUser user = await _userManager.FindByIdAsync(id);

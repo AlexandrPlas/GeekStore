@@ -4,12 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using GeekStore.Data;
 using GeekStore.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace GeekStore.Controllers
 {
+    [Authorize]
     public class StoreController : Controller
     {
         private ApplicationDbContext _DbContext;
@@ -30,14 +32,17 @@ namespace GeekStore.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Catalog(int? manufacture, string name, decimal minPrice = 0, decimal maxPrice = 50000, int page = 1,
+        [AllowAnonymous]
+        public async Task<IActionResult> Catalog(int? manufacture, string name, int? category,
+            decimal minPrice = 0, decimal maxPrice = 50000, int page = 1,
             SortState sortOrder = SortState.NameAsc)
         {
             int pageSize = 3;
 
             //фильтрация
-            IQueryable<Product> users = _DbContext.Products.Include(c => c.Manufacture).Include(m => m.Category)
-                                                 .Include(m => m.Images);
+            IQueryable<Product> users = _DbContext.Products.Where(c => category == null || c.CategoryId == category)
+                                                           .Include(c => c.Manufacture).Include(c => c.Category)
+                                                           .Include(c => c.Images);
 
             if (manufacture != null && manufacture != 0)
             {
@@ -90,12 +95,14 @@ namespace GeekStore.Controllers
                 PageViewModel = new PageViewModel(count, page, pageSize),
                 SortViewModel = new SortViewModel(sortOrder),
                 FilterViewModel = new FilterViewModel(_DbContext.Products.ToList(), manufacture, minPrice, maxPrice, name),
-                Products = items
-            };
-
+                Products = items,
+                CurrentCategory = category
+        };
+            ViewBag.SelectedCategory = category;
             return View(viewModel);
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Detail(int? id)
         {
             if (id != null)
@@ -165,6 +172,7 @@ namespace GeekStore.Controllers
             return NotFound();
         }
 
+
         public async Task<IActionResult> Backet()
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
@@ -220,6 +228,7 @@ namespace GeekStore.Controllers
             return NotFound();
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> DetailManufacture(int? id)
         {
             if (id != null)
@@ -231,5 +240,6 @@ namespace GeekStore.Controllers
             }
             return NotFound();
         }
+
     }
 }

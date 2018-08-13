@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace GeekStore.Views.Manage
 {
-    public static class StoreNavPages
+    public static class ManageNavPages
     {
         public static string ActivePageKey => "ActivePage";
 

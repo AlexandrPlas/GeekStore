@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using GeekStore.Data;
 using GeekStore.Models;
 using GeekStore.Models.RedactViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -13,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GeekStore.Controllers
 {
+    [Authorize(Roles ="admin,moderator")]
     public class RedactController : Controller
     {
         private ApplicationDbContext _DbContext;
@@ -320,7 +322,7 @@ namespace GeekStore.Controllers
         [HttpGet]
         public async Task<IActionResult> ListOrder()
         {
-            return View(await _DbContext.Orders.ToListAsync());
+            return View(await _DbContext.Orders.Include(c => c.User).ToListAsync());
         }
 
         private byte[] ImageToByte(IFormFile image)

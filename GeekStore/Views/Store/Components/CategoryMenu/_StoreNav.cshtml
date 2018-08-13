@@ -1,0 +1,10 @@
+﻿@model IEnumerable<Category>
+
+<ul class="nav nav-pills nav-stacked">
+    <li class="@(ViewBag.SelectedCategory == null ? "active" : null)"><a asp-area="" asp-controller="Store" asp-action="Catalog">Все</a></li>
+
+    @foreach (var link in Model)
+    {
+        <li class="@(link.Id == ViewBag.SelectedCategory ? "active" : null)"><a href='@Url.Action("Catalog", "Store", new { category = @link.Id }, null)'>@link.Name</a></li>
+    }
+</ul>
