@@ -7,21 +7,18 @@
 <h2>@ViewData["Title"]</h2>
 <div class="col-md-6">
     <form asp-action="EditManufacture" asp-controller="Redact" asp-route-id="@Model.Id">
-        @Html.ValidationSummary()
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name)
-            @Html.EditorFor(model => model.Name)
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Description)
-            @Html.EditorFor(model => model.Description)
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Logo)
-            @Html.EditorFor(model => model.Logo)
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-default">Изменить</button>
-        </div>
+        <dl class="dl-horizontal">
+            @Html.ValidationSummary()
+            <dt>@Html.LabelFor(model => model.Name)</dt>
+            <dd>@Html.EditorFor(model => model.Name)</dd>
+
+            <dt>@Html.LabelFor(model => model.Description)</dt>
+            <dd>@Html.TextAreaFor(model => model.Description)</dd>
+
+            <dt>@Html.LabelFor(model => model.Logo)</dt>
+            <dd>@Html.EditorFor(model => model.Logo)</dd>
+
+        </dl>
+        <button type="submit" class="btn btn-default">Добавить</button>
     </form>
 </div>

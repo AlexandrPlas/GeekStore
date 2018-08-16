@@ -53,12 +53,12 @@
                             @if (User.IsInRole("admin") || User.IsInRole("moderator"))
                             {
                                 <nav class="navbar navbar-inverse">
-                                            <ul class="nav navbar-nav">
-                                                <li><a asp-area="" asp-controller="Redact" asp-action="ListProduct">Товар</a></li>
-                                                <li><a asp-area="" asp-controller="Redact" asp-action="ListManufacture">Производители</a></li>
-                                                <li><a asp-area="" asp-controller="Redact" asp-action="ListCategory">Категории</a></li>
-                                                <li><a asp-area="" asp-controller="Redact" asp-action="ListOrder">Заказы</a></li>
-                                            </ul>
+                                    <ul class="nav navbar-nav">
+                                        <li><a asp-area="" asp-controller="Redact" asp-action="ListProduct">Товар</a></li>
+                                        <li><a asp-area="" asp-controller="Redact" asp-action="ListManufacture">Производители</a></li>
+                                        <li><a asp-area="" asp-controller="Redact" asp-action="ListCategory">Категории</a></li>
+                                        <li><a asp-area="" asp-controller="Redact" asp-action="ListOrder">Заказы</a></li>
+                                    </ul>
                                 </nav>
                             }
                             else
@@ -133,15 +133,29 @@
     <!-- HEADER AREA END -->
 
 
+    <section class="page-content">
+        <div class="container">
+            <div class="row">
+                @RenderBody()
 
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2018 - GeekStore</p>
-        </footer>
-    </div>
+            </div>
+        </div>
+    </section>
 
+    <footer class="footer-area">
+        <!-- Copyright-area Start -->
+        <div class="copyright-area" style="margin-top: 15px">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="copyright" >
+                            <p>&copy; 2018 - GeekStore</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
@@ -149,37 +163,37 @@
 
 
         <!-- jquery
-    ============================================ -->
+        ============================================ -->
         <script src="~/js/jquery-1.11.3.min.js"></script>
         <!-- bootstrap JS
-    ============================================ -->
+        ============================================ -->
         <script src="~/js/bootstrap.min.js"></script>
         <!-- wow JS
-    ============================================ -->
+        ============================================ -->
         <script src="~/js/wow.min.js"></script>
         <!-- meanmenu JS
-    ============================================ -->
+        ============================================ -->
         <script src="~/js/jquery.meanmenu.js"></script>
         <!-- owl.carousel JS
-    ============================================ -->
+        ============================================ -->
         <script src="~/js/owl.carousel.min.js"></script>
         <!-- scrollUp JS
-    ============================================ -->
+        ============================================ -->
         <script src="~/js/jquery.scrollUp.min.js"></script>
         <!-- countdon.min JS
-    ============================================ -->
+        ============================================ -->
         <script src="~/js/countdon.min.js"></script>
         <!-- jquery-price-slider js
-    ============================================ -->
+        ============================================ -->
         <script src="~/js/jquery-price-slider.js"></script>
         <!-- Nivo slider js
-    ============================================ -->
+        ============================================ -->
         <script src="~/js/jquery.nivo.slider.js" type="text/javascript"></script>
         <!-- plugins JS
-    ============================================ -->
+        ============================================ -->
         <script src="~/js/plugins.js"></script>
         <!-- main JS
-    ============================================ -->
+        ============================================ -->
         <script src="~/js/main.js"></script>
 
     </environment>

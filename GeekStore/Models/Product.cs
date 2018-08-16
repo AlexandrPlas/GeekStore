@@ -13,7 +13,7 @@ namespace GeekStore.Models
 
         [Display(Name = "Наименование товара")]
         [Required(ErrorMessage = "Не указано имя")]
-        [StringLength(30, MinimumLength = 3, ErrorMessage = "Длина строки должна быть от 3 до 30 символов")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "Длина строки должна быть от 3 до 50 символов")]
         public string Name { get; set; }
 
         [Display(Name = "Цена")]
@@ -41,6 +41,7 @@ namespace GeekStore.Models
 
         public int? CategoryId { get; set; }
         [Display(Name = "Категория")]
+        [Required]
         public Category Category { get; set; }
 
         public Product()
@@ -108,7 +109,7 @@ namespace GeekStore.Models
 
         [Display(Name = "Наименование")]
         [Required(ErrorMessage = "Не указано имя")]
-        [StringLength(20, MinimumLength = 3, ErrorMessage = "Длина строки должна быть от 3 до 20 символов")]
+        [StringLength(30, MinimumLength = 3, ErrorMessage = "Длина строки должна быть от 3 до 30 символов")]
         public String Name { get; set; }
 
         [Display(Name = "Иерархия")]
@@ -117,6 +118,16 @@ namespace GeekStore.Models
 
         [Display(Name = "Продукты")]
         public ICollection<Product> Products { get; set; }
+
+        public Category()
+        {
+        }
+        public Category(string name)
+        {
+            Name = name;
+            Hierarchy = 1;
+            Availability = false;
+        }
     }
 
     public class Order

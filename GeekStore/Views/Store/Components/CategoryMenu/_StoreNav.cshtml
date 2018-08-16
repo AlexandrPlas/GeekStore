@@ -1,10 +1,22 @@
 ﻿@model IEnumerable<Category>
 
-<ul class="nav nav-pills nav-stacked">
-    <li class="@(ViewBag.SelectedCategory == null ? "active" : null)"><a asp-area="" asp-controller="Store" asp-action="Catalog">Все</a></li>
 
-    @foreach (var link in Model)
-    {
-        <li class="@(link.Id == ViewBag.SelectedCategory ? "active" : null)"><a href='@Url.Action("Catalog", "Store", new { category = @link.Id }, null)'>@link.Name</a></li>
-    }
-</ul>
+
+    <!-- CATEGORY-MENU-LIST START -->
+    <div class="left-category-menu hidden-sm hidden-xs">
+        <div class="left-product-cat">
+            <div class="category-heading">
+                <h2>Категории</h2>
+            </div>
+            <div class="category-menu-list">
+                <ul>
+                    <li class="@(ViewBag.SelectedCategory == null ? "active" : null)"><a asp-area="" asp-controller="Store" asp-action="Catalog">Все товары</a></li>
+                    @foreach (var link in Model)
+                    {
+                        <li class="@(link.Id == ViewBag.SelectedCategory ? "active" : null)"><a href='@Url.Action("Catalog", "Store", new { category = @link.Id }, null)'>@link.Name</a></li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- END CATEGORY-MENU-LIST -->

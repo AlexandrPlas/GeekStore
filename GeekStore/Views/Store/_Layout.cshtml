@@ -3,19 +3,13 @@
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Категории</h2>
-
-<div>
-    <hr />
-    <div class="row">
-        <div class="col-md-3">
-            @await Component.InvokeAsync("CategoryMenu", new { category = ViewBag.SelectedCategory })
-        </div>
-        <div class="col-md-9">
+<section class="page-content">
+    <div class="container">
+        <div class="row">
             @RenderBody()
         </div>
     </div>
-</div>
+</section>
 
 @section Scripts {
     @RenderSection("Scripts", required: false)

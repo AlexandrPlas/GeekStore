@@ -13,6 +13,7 @@ namespace GeekStore.Models.RedactViewModels
         public int Id { get; set; }
 
         [Display(Name = "Наименование товара")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "Длина строки должна быть от 3 до 50 символов")]
         public string Name { get; set; }
 
         [Display(Name = "Стоимость товара")]

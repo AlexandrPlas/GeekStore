@@ -27,7 +27,8 @@ namespace GeekStore
                 {
                     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
                     var rolesManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-                    await Initializer.InitializeUserAsync(userManager, rolesManager);
+                    var _DBcontext = services.GetRequiredService<Data.ApplicationDbContext>();
+                    await Initializer.InitializeUserAsync(userManager, rolesManager, _DBcontext);
                 }
                 catch (Exception ex)
                 {

@@ -11,5 +11,10 @@
     {
         <li class="@ManageNavPages.UsersNavClass(ViewContext)"><a asp-action="Users">Редактировать аккаунты</a></li>
     }
+    <li>
+        <form method="post" asp-controller="Account" asp-action="Logout">
+            <input type="submit" value="Выход" />
+        </form>
+    </li>
 </ul>
 

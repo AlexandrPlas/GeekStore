@@ -126,7 +126,9 @@ namespace GeekStore.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-        
+
+       
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
@@ -134,7 +136,6 @@ namespace GeekStore.Controllers
             _logger.LogInformation("Пользователь вышел.");
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
-
 
         [HttpGet]
         [AllowAnonymous]

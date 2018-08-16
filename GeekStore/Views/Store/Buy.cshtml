@@ -7,11 +7,12 @@
 <h2>@ViewData["Title"]</h2>
 
 <div>
+    @if (Model.Images.Count > 0)
+    {
+        <img  src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Images.FirstOrDefault().Picture))" />
+    }
     <dl class="dl-horizontal">
-        @if (Model.Images.Count > 0)
-        {
-            <img style='width:60px; height:60px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Images.FirstOrDefault().Picture))" />
-        }
+
         <dt>Наименование</dt>
         <dd>
             @Html.DisplayFor(model => model.Name)
@@ -32,7 +33,7 @@
     </dl>
     <div>
         <form asp-controller="Store" asp-action="Buy" method="post">
-            <input type="hidden" name="id" value="@Model.Id"/>
+            <input type="hidden" name="id" value="@Model.Id" />
             <div class="form-group">
                 <label>Количество:</label>
                 <input type="number" name="quantity" />
@@ -42,3 +43,4 @@
             </div>
         </form>
     </div>
+</div>

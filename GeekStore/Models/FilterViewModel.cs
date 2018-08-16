@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using GeekStore.Data;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +9,10 @@ namespace GeekStore.Models
 {
     public class FilterViewModel
     {
-        public FilterViewModel(List<Product> products, int? manufacture, decimal? minPrice, decimal? maxPrice, string name)
+        public FilterViewModel(int? manufacture, decimal? minPrice, decimal? maxPrice, string name, List<Manufacture> manufactures)
         {
-            products.Insert(0, new Product { Name = "Все", Id = 0 });
-            Manufactures = new SelectList(products, "Id", "Name", manufacture);
+            manufactures.Insert(0, new Manufacture { Name = "Все", Id = 0 });
+            Manufactures = new SelectList(manufactures, "Id", "Name", manufacture);
             MinPrice = minPrice;
             MaxPrice = maxPrice; 
             SelectedManufacture = manufacture;

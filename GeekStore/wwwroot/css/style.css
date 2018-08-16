@@ -1432,7 +1432,7 @@ a.posts-read-more:hover {
 }
 .product-description h5 a:hover {color: #e95668;}
 .product-description {
-	padding: 0 0 15px 15px;
+	padding: 15px 0 15px 15px;
 	position: relative;
 }
 .product-action{
@@ -1467,6 +1467,21 @@ a.posts-read-more:hover {
 	text-transform: uppercase;
 	transition: all 0.5s ease 0s;
 	width: 144px;
+}
+
+.product-button a {
+    background: #26acce none repeat scroll 0 0;
+    border: 0 none;
+    box-shadow: none;
+    color: #fff;
+    display: block;
+    font-weight: 700;
+    line-height: 30px;
+    margin: 15px 0 5px;
+    padding: 5px;
+    text-transform: uppercase;
+    transition: all 0.5s ease 0s;
+    width: 144px;
 }
 .product-button button:hover {
   background: #e95668 none repeat scroll 0 0;

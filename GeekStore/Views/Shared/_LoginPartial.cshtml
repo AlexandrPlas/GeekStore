@@ -8,11 +8,10 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    <ul class="link">
-        <li><a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage"><i class="fa fa-user"></i> @UserManager.GetUserName(User)</a></li>
-        <li><a asp-area="" asp-controller="Store" asp-action="Backet"><i class="fa fa-heart"></i> Корзина (@_DbContext.OrderProducts.Where(m => m.Order.User.Id == UserManager.GetUserId(User) && m.Order.Status == "Ожидание оплаты").Count())</a></li>
-        <li><a asp-area="" asp-controller="Account" asp-action="Logout"><i class="fa fa-share"></i> Выйти</a></li>
-    </ul>
+<ul class="link">
+    <li><a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage"><i class="fa fa-user"></i> @UserManager.GetUserName(User)</a></li>
+    <li><a asp-area="" asp-controller="Store" asp-action="Backet"><i class="fa fa-heart"></i> Корзина (@_DbContext.OrderProducts.Where(m => m.Order.User.Id == UserManager.GetUserId(User) && m.Order.Status == "Ожидание оплаты").Count())</a></li>
+</ul>
 }
 else
 {

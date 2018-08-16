@@ -9,7 +9,7 @@ namespace GeekStore
 {
     public class Initializer
     {
-        public static async Task InitializeUserAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public static async Task InitializeUserAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, Data.ApplicationDbContext _DBcontext)
         {
             string adminEmail = "admin@gmail.com";
             string password = "_Aa123456";
@@ -34,6 +34,39 @@ namespace GeekStore
                     await userManager.AddToRoleAsync(admin, "admin");
                 }
             }
+            IQueryable<Category> categories = _DBcontext.Categorys;
+
+            if (categories.FirstOrDefault(x => x.Name == "Настольные карточные игры" ) == null)
+            {
+                await _DBcontext.Categorys.AddAsync(new Category("Настольные карточные игры"));
+            }
+            if (categories.FirstOrDefault(x => x.Name == "Классические настольные игры") == null)
+            {
+                await _DBcontext.Categorys.AddAsync(new Category("Классические настольные игры"));
+            }
+            if (categories.FirstOrDefault(x => x.Name == "Ролевые настольные игры") == null)
+            {
+                await _DBcontext.Categorys.AddAsync(new Category("Ролевые настольные игры"));
+            }
+            if (categories.FirstOrDefault(x => x.Name == "Коллекционные карточные игры") == null)
+            {
+                await _DBcontext.Categorys.AddAsync(new Category("Коллекционные карточные игры"));
+            }
+            if (categories.FirstOrDefault(x => x.Name == "Игры для детей") == null)
+            {
+                await _DBcontext.Categorys.AddAsync(new Category("Игры для детей"));
+            }
+            if (categories.FirstOrDefault(x => x.Name == "Книги и журналы") == null)
+            {
+                await _DBcontext.Categorys.AddAsync(new Category("Книги и журналы"));
+            }
+            if (categories.FirstOrDefault(x => x.Name == "Аксессуары") == null)
+            {
+                await _DBcontext.Categorys.AddAsync(new Category("Аксессуары"));
+            }
+             _DBcontext.SaveChanges();
+
+
         }
     }
 }

@@ -11,9 +11,10 @@ using System;
 namespace GeekStore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180816040805_DB v0.3")]
+    partial class DBv03
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -173,8 +174,7 @@ namespace GeekStore.Data.Migrations
 
                     b.Property<bool>("Availability");
 
-                    b.Property<int?>("CategoryId")
-                        .IsRequired();
+                    b.Property<int?>("CategoryId");
 
                     b.Property<int>("Count");
 
@@ -185,7 +185,7 @@ namespace GeekStore.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50);
+                        .HasMaxLength(30);
 
                     b.Property<decimal>("Price");
 
@@ -339,8 +339,7 @@ namespace GeekStore.Data.Migrations
                 {
                     b.HasOne("GeekStore.Models.Category", "Category")
                         .WithMany("Products")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("CategoryId");
 
                     b.HasOne("GeekStore.Models.Manufacture", "Manufacture")
                         .WithMany("Products")

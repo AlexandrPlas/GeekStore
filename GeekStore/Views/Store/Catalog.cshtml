@@ -5,83 +5,155 @@
     Layout = "~/Views/Store/_Layout.cshtml";
 }
 
-<h2>@ViewData["Title"]</h2>
 
-
-<form method="get">
-    <div class="form-inline">
-        <label class="control-label">Цена   Min: </label>
-        @Html.TextBox("minPrice", 0, new { type = "number" })
-        <label class="control-label">Max: </label>
-        @Html.TextBox("maxPrice", 50000, new { type = "number" }) <br />
-        <label class="control-label">Имя: </label>
-        @Html.TextBox("name", Model.FilterViewModel.SelectedName, htmlAttributes: new { @class = "form-control" })
-
-        <label class="control-label">Производитель: </label>
-        @Html.DropDownList("manufacture", Model.FilterViewModel.Manufactures as SelectList,
-                htmlAttributes: new { @class = "form-control" })
-
-        <input type="submit" value="Фильтр" class="btn btn-default" />
+<div class="col-md-3 col-sm-3">
+    @await Component.InvokeAsync("CategoryMenu", new { category = ViewBag.SelectedCategory })
+    <div class="shop-filter">
+        <div class="area-title">
+            <h3 class="title-group gfont-1">Фильтры:</h3>
+        </div>
+        <form method="get">
+            <div class="info_widget">
+                <div class="price_filter">
+                    <div class="price_slider_amount">
+                        <label>Цена:</label> <br />
+                        <label>Min: </label>
+                        @Html.TextBox("minPrice", 0, new { type = "number" })<br />
+                        <label>Max: </label>
+                        @Html.TextBox("maxPrice", 50000, new { type = "number" }) <br />
+                    </div>
+                    <div class="price_slider_amount">
+                        <label>Имя: </label><br />
+                        @Html.TextBox("name", Model.FilterViewModel.SelectedName, htmlAttributes: new { @style = "width: 100%; letter-spacing: 0px; text-align: left;" })
+                    </div>
+                    <div class="price_slider_amount">
+                        <label>Производитель: </label><br />
+                        @Html.DropDownList("manufacture", Model.FilterViewModel.Manufactures as SelectList,
+                                htmlAttributes: new { @class = "form-control" })
+                    </div>
+                    <div class="price_slider_amount">
+                        <input type="submit" value="Фильтр" />
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
-</form>
+</div>
+
+            <div class="col-md-9 col-sm-9">
+                <div class="product-area">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <!-- Start Product-Menu -->
+                            <div class="product-menu">
+                                <div class="product-title">
+                                    <h3 class="title-group-3 gfont-1">Каталог товаров</h3>
+                                </div>
+                            </div>
+                            <div class="product-filter">
+                                <div class="sort" style=" float: left">
+                                    <label>Сортировать по:  </label>
+                                    <a asp-action="Catalog"
+                                       asp-route-sortOrder="@(Model.SortViewModel.NameSort)"
+                                       asp-route-name="@(Model.FilterViewModel.SelectedName)"
+                                       asp-route-company="@(Model.FilterViewModel.SelectedManufacture)"
+                                       asp-route-minPrice="@(Model.FilterViewModel.MinPrice)"
+                                       asp-route-maxPrice="@(Model.FilterViewModel.MaxPrice)">Имени</a> |
+                                    <a asp-action="Catalog" asp-route-sortOrder="@(Model.SortViewModel.ManufactureSort)"
+                                       asp-route-name="@(Model.FilterViewModel.SelectedName)"
+                                       asp-route-company="@(Model.FilterViewModel.SelectedManufacture)"
+                                       asp-route-minPrice="@(Model.FilterViewModel.MinPrice)"
+                                       asp-route-maxPrice="@(Model.FilterViewModel.MaxPrice)">Производителю</a> |
+                                    <a asp-action="Catalog" asp-route-sortOrder="@(Model.SortViewModel.PriceSort)"
+                                       asp-route-name="@(Model.FilterViewModel.SelectedName)"
+                                       asp-route-company="@(Model.FilterViewModel.SelectedManufacture)"
+                                       asp-route-minPrice="@(Model.FilterViewModel.MinPrice)"
+                                       asp-route-maxPrice="@(Model.FilterViewModel.MaxPrice)">Цене</a>
+                                </div>
+                            </div>
+
+                            <!-- End Product-Menu -->
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12 col-md-12">
+                            <!-- Start Product -->
+                            <div class="product">
+                                <div class="tab-content">
+                                    <!-- Start Product-->
+                                    <div role="tabpanel" class="tab-pane fade in  active">
+                                        <div class="row" style="  -moz-column-width: 18em; -webkit-column-width: 18em; -moz-column-gap: 1em; -webkit-column-gap:1em;">
+                                            <!-- Start Single-Product -->
+                                            @foreach (var item in Model.Products)
+                                            {
+                                                <div  style=" display: inline-block; padding:  .25rem; width:  100%; ">
+                                                    <div class="single-product" style=" position:relative; display: block;">
+                                                        <div class="product-img">
+                                                            <a asp-action="Detail" asp-controller="Store" asp-route-id="@item.Id">
+                                                                @if (item.Images.Count > 0)
+                                                                {
+                                                                    <img class="primary-img" src="data:image/jpeg;base64,@(Convert.ToBase64String(item.Images.FirstOrDefault().Picture))" alt="Product" />
+                                                                    <img class="secondary-img" src="data:image/jpeg;base64,@(Convert.ToBase64String(item.Images.FirstOrDefault().Picture))" alt="Product" />
+
+                                                                }
+                                                            </a>
+                                                        </div>
+                                                        <div class="product-description">
+                                                            <h5><a asp-action="Detail" asp-controller="Store" asp-route-id="@item.Id">@item.Name</a></h5>
+                                                            <div class="price-box">
+                                                                <span class="price">@item.Price р.</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="product-action">
+                                                            <div class="button-group">
+                                                                <div class="product-button">
+                                                                    <a asp-controller="Store" asp-action="Buy" asp-route-id="@item.Id"><i class="fa fa-shopping-cart"></i>В корзину</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            }
 
 
-<table class="table">
-    <tr>
-        <td>
-            <a asp-action="Catalog"
-               asp-route-sortOrder="@(Model.SortViewModel.NameSort)"
-               asp-route-name="@(Model.FilterViewModel.SelectedName)"
-               asp-route-company="@(Model.FilterViewModel.SelectedManufacture)"
-               asp-route-minPrice="@(Model.FilterViewModel.MinPrice)"
-               asp-route-maxPrice="@(Model.FilterViewModel.MaxPrice)">Имя</a>
-        </td>
-        <td>
-            <a asp-action="Catalog" asp-route-sortOrder="@(Model.SortViewModel.ManufactureSort)"
-               asp-route-name="@(Model.FilterViewModel.SelectedName)"
-               asp-route-company="@(Model.FilterViewModel.SelectedManufacture)"
-               asp-route-minPrice="@(Model.FilterViewModel.MinPrice)"
-               asp-route-maxPrice="@(Model.FilterViewModel.MaxPrice)">Производитель</a>
-        </td>
-        <td>Категория</td>
-        <td>
-            <a asp-action="Catalog" asp-route-sortOrder="@(Model.SortViewModel.PriceSort)"
-               asp-route-name="@(Model.FilterViewModel.SelectedName)"
-               asp-route-company="@(Model.FilterViewModel.SelectedManufacture)"
-               asp-route-minPrice="@(Model.FilterViewModel.MinPrice)"
-               asp-route-maxPrice="@(Model.FilterViewModel.MaxPrice)">Цена</a>
-        </td>
-        <td>Количество на складе</td>
-        <td>Описание</td>
-    </tr>
-    @foreach (var item in Model.Products)
-    {
-        <tr>
-            <td>
-                @if (item.Images.Count > 0)
-                {
-                    <img style='width:60px; height:60px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(item.Images.FirstOrDefault().Picture))" />
-                }
-                <a asp-action="Detail" asp-controller="Store" asp-route-id="@item.Id">@item.Name</a>
-            </td>
-            <td>
-                @if (item.Manufacture != null)
-                {@item.Manufacture.Name}
-            </td>
-            <td>
-                @if (item.Category != null)
-                {@item.Category.Name}
-            </td>
-            <td>@item.Price</td>
-            <td>@item.Count</td>
-            <td>@item.Description</td>
-            <td><a asp-controller="Store" asp-action="Buy" asp-route-id="@item.Id" class="btn btn-default">В корзину</a></td>
-        </tr>
-    }
-</table>
-<page-link page-model="Model.PageViewModel" page-action="Catalog"
-           page-url-name="@(Model.FilterViewModel.SelectedName)"
-           page-url-manufacture="@(Model.FilterViewModel.SelectedManufacture)"
-           page-url-minPrice="@(Model.FilterViewModel.MinPrice)"
-           page-url-maxPrice="@(Model.FilterViewModel.MaxPrice)"
-           page-url-sortorder="@(Model.SortViewModel.Current)"></page-link>
+
+                                            <!-- End Single-Product -->
+                                        </div>
+                                        <!-- Start Pagination Area -->
+                                        <div class="pagination-area">
+                                            <div class="row">
+                                                <div class="col-xs-5">
+                                                    <div class="pagination">
+                                                        <page-link page-model="Model.PageViewModel" page-action="Catalog"
+                                                                   page-url-name="@(Model.FilterViewModel.SelectedName)"
+                                                                   page-url-manufacture="@(Model.FilterViewModel.SelectedManufacture)"
+                                                                   page-url-minPrice="@(Model.FilterViewModel.MinPrice)"
+                                                                   page-url-maxPrice="@(Model.FilterViewModel.MaxPrice)"
+                                                                   page-url-sortorder="@(Model.SortViewModel.Current)"></page-link>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-7">
+                                                    <div class="product-result">
+                                                        <span>Всего страниц @Model.PageViewModel.TotalPages</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End Pagination Area -->
+                                    </div>
+                                    <!-- End Product = TV -->
+                                </div>
+                            </div>
+                            <!-- End Product -->
+                        </div>
+                    </div>
+
+
+
+
+
+                </div>
+            </div>

@@ -37,7 +37,7 @@ namespace GeekStore.Controllers
             decimal minPrice = 0, decimal maxPrice = 50000, int page = 1,
             SortState sortOrder = SortState.NameAsc)
         {
-            int pageSize = 3;
+            int pageSize = 12;
 
             //фильтрация
             IQueryable<Product> users = _DbContext.Products.Where(c => category == null || c.CategoryId == category)
@@ -94,7 +94,7 @@ namespace GeekStore.Controllers
             {
                 PageViewModel = new PageViewModel(count, page, pageSize),
                 SortViewModel = new SortViewModel(sortOrder),
-                FilterViewModel = new FilterViewModel(_DbContext.Products.ToList(), manufacture, minPrice, maxPrice, name),
+                FilterViewModel = new FilterViewModel(manufacture, minPrice, maxPrice, name, _DbContext.Manufactures.ToList()),
                 Products = items,
                 CurrentCategory = category
         };
